@@ -53,9 +53,6 @@ export default class Home extends Component {
             Pesquisar
           </button>
         </div>
-        <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
         {listProducts.length === 0 ? notFound : productsCards}
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
