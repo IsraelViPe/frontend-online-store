@@ -10,7 +10,7 @@ export default class Home extends Component {
             type="text"
           />
           <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
+            Digite algum termo de pesquisa ou escolha uma categoria.
           </p>
         </div>
         <Link data-testid="shopping-cart-button" to="/cart">Carrinho:</Link>

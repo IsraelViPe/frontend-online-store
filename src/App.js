@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import Home from './pages/Home';
 import LittleCart from './pages/LittleCart';
 
-
 export default class App extends Component {
   render() {
     return (
