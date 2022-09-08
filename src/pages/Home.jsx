@@ -13,7 +13,7 @@ export default class Home extends Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
           </p>
         </div>
-        <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
+        <Link data-testid="shopping-cart-button" to="/cart">Carrinho:</Link>
       </div>
     );
   }
