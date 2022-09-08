@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import PreviewProduct from '../components/PreviewProduct';
-import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
   state = {
@@ -56,11 +56,10 @@ export default class Home extends Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
-        { listProducts.length === 0 ? notFound : productsCards }
-          <p data-testid="home-initial-message">
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </p>
-        </div>
+        {listProducts.length === 0 ? notFound : productsCards}
+        <p data-testid="home-initial-message">
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </p>
         <Link data-testid="shopping-cart-button" to="/cart">Carrinho:</Link>
       </div>
     );
