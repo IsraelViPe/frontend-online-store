@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import PreviewProduct from '../components/PreviewProduct';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
   state = {
@@ -36,7 +37,7 @@ export default class Home extends Component {
       />)));
     return (
       <div>
-        <div>
+        <div id="pesquisa">
           <input
             data-testid="query-input"
             type="text"
@@ -54,10 +55,13 @@ export default class Home extends Component {
         </div>
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
-
         </p>
         { listProducts.length === 0 ? notFound : productsCards }
-
+          <p data-testid="home-initial-message">
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </p>
+        </div>
+        <Link data-testid="shopping-cart-button" to="/cart">Carrinho:</Link>
       </div>
     );
   }
