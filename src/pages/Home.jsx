@@ -9,6 +9,7 @@ export default class Home extends Component {
     term: '',
     listProducts: [],
     listCategories: [],
+    productsCart: [],
   };
 
   componentDidMount() {
@@ -17,7 +18,6 @@ export default class Home extends Component {
 
   puxaCategoria = async () => {
     const responseCategories = await getCategories();
-    console.log(responseCategories);
     this.setState({
       listCategories: responseCategories,
     });
@@ -31,11 +31,29 @@ export default class Home extends Component {
 
   handleClick = async ({ target: { id } }) => {
     const { term } = this.state;
-    console.log(id);
     const requestTerm = await getProductsFromCategoryAndQuery(id, term);
     this.setState({
       listProducts: requestTerm.results,
     });
+  };
+
+  handleAddCart = ({ target: { id } }) => {
+    const { listProducts } = this.state;
+    const clickedProduct = listProducts.find(({ id: idList }) => idList === id);
+    const { thumbnail, price, title, id: idList } = clickedProduct;
+    this.setState((prevState) => ({
+      productsCart: [...prevState.productsCart, {
+        thumbnail,
+        price,
+        title,
+        idList,
+      }],
+    }), this.saveProductsCart);
+  };
+
+  saveProductsCart = () => {
+    const { productsCart } = this.state;
+    localStorage.setItem('cart', JSON.stringify(productsCart));
   };
 
   render() {
@@ -45,9 +63,11 @@ export default class Home extends Component {
     const productsCards = (
       listProducts.map(({ thumbnail, price, title, id }) => (<PreviewProduct
         key={ id }
+        idButton={ id }
         thumbnail={ thumbnail }
         price={ price }
         title={ title }
+        handleAddCart={ this.handleAddCart }
       />)));
     return (
       <div>
