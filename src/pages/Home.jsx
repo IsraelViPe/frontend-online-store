@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import PreviewProduct from '../components/PreviewProduct';
+// comentário
 
 export default class Home extends Component {
   state = {
