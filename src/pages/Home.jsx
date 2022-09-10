@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import PreviewProduct from '../components/PreviewProduct';
-// comentário
 
 export default class Home extends Component {
   state = {
@@ -10,6 +9,7 @@ export default class Home extends Component {
     listProducts: [],
     listCategories: [],
     productsCart: [],
+    counterItens: 1,
   };
 
   componentDidMount() {
@@ -38,7 +38,7 @@ export default class Home extends Component {
   };
 
   handleAddCart = ({ target: { id } }) => {
-    const { listProducts } = this.state;
+    const { listProducts, productsCart } = this.state;
     const clickedProduct = listProducts.find(({ id: idList }) => idList === id);
     const { thumbnail, price, title, id: idList } = clickedProduct;
     this.setState((prevState) => ({
@@ -49,6 +49,28 @@ export default class Home extends Component {
         idList,
       }],
     }), this.saveProductsCart);
+    const noRepeatItens = productsCart.filter((element) => element.idList !== id);
+    const repeatItens = productsCart.filter((element) => element.idList === id);
+    if (repeatItens.length > 0) {
+      this.setState((prevState) => ({
+        counterItens: prevState.counterItens + 1,
+
+      }), () => {
+        this.setState((prevState) => ({
+          productsCart: [...noRepeatItens, {
+            thumbnail,
+            price,
+            title,
+            idList,
+            addCount: prevState.counterItens,
+          }],
+        }), this.saveProductsCart);
+      });
+    } else {
+      this.setState({
+        counterItens: 1,
+      });
+    }
   };
 
   saveProductsCart = () => {
