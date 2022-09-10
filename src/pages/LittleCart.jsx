@@ -7,20 +7,22 @@ export default class LittleCart extends Component {
 
   render() {
     const { cart } = this.state;
-    const emptyCart = <p>Seu carrinho está vazio.</p>
-    const itemCart = cart.map(({price, title, thumbnail, idList }) => {
-      <div key={idList}>
-        <img src={thumbnail} alt={ title } />
+    const emptyCart = <p>Seu carrinho está vazio.</p>;
+    const itemCart = cart.map(({ price, title, thumbnail, idList, addCount }) => (
+      <div key={ idList }>
+        <img src={ thumbnail } alt={ title } />
         <p data-testid="shopping-cart-product-name">{ title }</p>
         <p>{price}</p>
         <p data-testid="shopping-cart-product-quantity">
           Quantidade :
-           </p>
+          {' '}
+          {addCount ? `${addCount}` : `${1}`}
+        </p>
       </div>
-    })
+    ));
     return (
       <div data-testid="shopping-cart-empty-message">
-        {/* {cart.length === 0 ? emptyCart : } */}
+        {cart.length === 0 ? emptyCart : itemCart }
       </div>
     );
   }

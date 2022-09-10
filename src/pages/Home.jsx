@@ -8,7 +8,7 @@ export default class Home extends Component {
     term: '',
     listProducts: [],
     listCategories: [],
-    productsCart: [],
+    productsCart: JSON.parse(localStorage.getItem('cart')) || [],
     counterItens: 1,
   };
 
