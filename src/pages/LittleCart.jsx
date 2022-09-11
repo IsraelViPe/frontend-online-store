@@ -8,7 +8,7 @@ export default class LittleCart extends Component {
   render() {
     const { cart } = this.state;
     const emptyCart = <p>Seu carrinho está vazio.</p>;
-    const itemCart = cart.map(({ price, title, thumbnail, idList, addCount }) => (
+    const itemCartRender = cart.map(({ price, title, thumbnail, idList, addCount }) => (
       <div key={ idList }>
         <img src={ thumbnail } alt={ title } />
         <p data-testid="shopping-cart-product-name">{ title }</p>
@@ -22,7 +22,7 @@ export default class LittleCart extends Component {
     ));
     return (
       <div data-testid="shopping-cart-empty-message">
-        {cart.length === 0 ? emptyCart : itemCart }
+        {cart.length === 0 ? emptyCart : itemCartRender }
       </div>
     );
   }

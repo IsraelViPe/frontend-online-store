@@ -10,6 +10,9 @@ export default class Home extends Component {
     listCategories: [],
     productsCart: JSON.parse(localStorage.getItem('cart')) || [],
     counterItens: 1,
+    counterCartLink: JSON.parse(localStorage.getItem('cart'))
+      .reduce((total, element) => (element.addCount
+        ? (total + Number(element.addCount)) : (total + 1)), 0),
   };
 
   componentDidMount() {
@@ -39,6 +42,9 @@ export default class Home extends Component {
 
   handleAddCart = ({ target: { id } }) => {
     const { listProducts, productsCart } = this.state;
+    this.setState((prevState) => ({
+      counterCartLink: prevState.counterCartLink + 1,
+    }));
     const clickedProduct = listProducts.find(({ id: idList }) => idList === id);
     const { thumbnail, price, title, id: idList } = clickedProduct;
     this.setState((prevState) => ({
@@ -49,15 +55,15 @@ export default class Home extends Component {
         idList,
       }],
     }), this.saveProductsCart);
-    const noRepeatItens = productsCart.filter((element) => element.idList !== id);
-    const repeatItens = productsCart.filter((element) => element.idList === id);
-    if (repeatItens.length > 0) {
+    const nonRepeatedItens = productsCart.filter((element) => element.idList !== id);
+    const repeatedItens = productsCart.filter((element) => element.idList === id);
+    if (repeatedItens.length > 0) {
       this.setState((prevState) => ({
         counterItens: prevState.counterItens + 1,
 
       }), () => {
         this.setState((prevState) => ({
-          productsCart: [...noRepeatItens, {
+          productsCart: [...nonRepeatedItens, {
             thumbnail,
             price,
             title,
@@ -79,7 +85,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { term, listProducts, listCategories } = this.state;
+    const { term, listProducts, listCategories, counterCartLink } = this.state;
     const notFound = <span>Nenhum produto foi encontrado</span>;
 
     const productsCards = (
@@ -126,7 +132,12 @@ export default class Home extends Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
-        <Link data-testid="shopping-cart-button" to="/cart">Carrinho:</Link>
+        <Link data-testid="shopping-cart-button" to="/cart">
+          Carrinho:
+          {' '}
+          {`${counterCartLink}`}
+
+        </Link>
       </div>
     );
   }
