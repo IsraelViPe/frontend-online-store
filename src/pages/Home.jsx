@@ -10,9 +10,9 @@ export default class Home extends Component {
     listCategories: [],
     productsCart: JSON.parse(localStorage.getItem('cart')) || [],
     counterItens: 1,
-    counterCartLink: JSON.parse(localStorage.getItem('cart'))
-      .reduce((total, element) => (element.addCount
-        ? (total + Number(element.addCount)) : (total + 1)), 0),
+    // counterCartLink: JSON.parse(localStorage.getItem('cart'))
+    //   .reduce((total, element) => (element.addCount
+    //     ? (total + Number(element.addCount)) : (total + 1)), 0),
   };
 
   componentDidMount() {
@@ -135,7 +135,7 @@ export default class Home extends Component {
         <Link data-testid="shopping-cart-button" to="/cart">
           Carrinho:
           {' '}
-          {`${counterCartLink}`}
+          {/* {`${counterCartLink}`} */}
 
         </Link>
       </div>
