@@ -16,7 +16,7 @@ export default class Home extends Component {
 
   puxaCategoria = async () => {
     const responseCategories = await getCategories();
-    console.log(responseCategories);
+    // console.log(responseCategories);
     this.setState({
       listCategories: responseCategories,
     });
@@ -30,7 +30,7 @@ export default class Home extends Component {
 
   handleClick = async ({ target: { id } }) => {
     const { term } = this.state;
-    console.log(id);
+    // console.log(id);
     const requestTerm = await getProductsFromCategoryAndQuery(id, term);
     this.setState({
       listProducts: requestTerm.results,
@@ -44,10 +44,12 @@ export default class Home extends Component {
     const productsCards = (
       listProducts.map(({ thumbnail, price, title, id }) => (<PreviewProduct
         key={ id }
+        idProduct={ id }
         thumbnail={ thumbnail }
         price={ price }
         title={ title }
       />)));
+
     return (
       <div>
         <div id="categorias">
