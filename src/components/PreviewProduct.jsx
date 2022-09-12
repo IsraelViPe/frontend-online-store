@@ -6,8 +6,13 @@ export default class PreviewProduct extends Component {
   render() {
     const { thumbnail, price, title, idProduct } = this.props;
     return (
-      <Link data-testid="product" to={ `details/${idProduct}` }>
-        <div>
+      <Link
+        data-testid="product"
+        to={ `details/${idProduct}` }
+      >
+        <div
+          data-testid="product-detail-link"
+        >
           <img
             src={ thumbnail }
             alt={ title }
