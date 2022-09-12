@@ -8,6 +8,11 @@ export default class Home extends Component {
     term: '',
     listProducts: [],
     listCategories: [],
+    productsCart: JSON.parse(localStorage.getItem('cart')) || [],
+    counterItens: 1,
+    // counterCartLink: JSON.parse(localStorage.getItem('cart'))
+    //   .reduce((total, element) => (element.addCount
+    //     ? (total + Number(element.addCount)) : (total + 1)), 0),
   };
 
   componentDidMount() {
@@ -16,7 +21,6 @@ export default class Home extends Component {
 
   puxaCategoria = async () => {
     const responseCategories = await getCategories();
-    // console.log(responseCategories);
     this.setState({
       listCategories: responseCategories,
     });
@@ -30,11 +34,54 @@ export default class Home extends Component {
 
   handleClick = async ({ target: { id } }) => {
     const { term } = this.state;
-    // console.log(id);
     const requestTerm = await getProductsFromCategoryAndQuery(id, term);
     this.setState({
       listProducts: requestTerm.results,
     });
+  };
+
+  handleAddCart = ({ target: { id } }) => {
+    const { listProducts, productsCart } = this.state;
+    this.setState((prevState) => ({
+      counterCartLink: prevState.counterCartLink + 1,
+    }));
+    const clickedProduct = listProducts.find(({ id: idList }) => idList === id);
+    const { thumbnail, price, title, id: idList } = clickedProduct;
+    this.setState((prevState) => ({
+      productsCart: [...prevState.productsCart, {
+        thumbnail,
+        price,
+        title,
+        idList,
+      }],
+    }), this.saveProductsCart);
+    const nonRepeatedItens = productsCart.filter((element) => element.idList !== id);
+    const repeatedItens = productsCart.filter((element) => element.idList === id);
+    if (repeatedItens.length > 0) {
+      this.setState((prevState) => ({
+        counterItens: prevState.counterItens + 1,
+
+      }), () => {
+        this.setState((prevState) => ({
+          productsCart: [...nonRepeatedItens, {
+            thumbnail,
+            price,
+            title,
+            idList,
+            addCount: prevState.counterItens,
+          }],
+        }), this.saveProductsCart);
+      });
+    } else {
+      this.setState({
+        counterItens: 1,
+      });
+    }
+  };
+
+  saveProductsCart = () => {
+    const { productsCart } = this.state;
+    localStorage.setItem('cart', JSON.stringify(productsCart));
   };
 
   render() {
@@ -44,10 +91,12 @@ export default class Home extends Component {
     const productsCards = (
       listProducts.map(({ thumbnail, price, title, id }) => (<PreviewProduct
         key={ id }
+        idButton={ id }
         idProduct={ id }
         thumbnail={ thumbnail }
         price={ price }
         title={ title }
+        handleAddCart={ this.handleAddCart }
       />)));
 
     return (
@@ -85,7 +134,12 @@ export default class Home extends Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
-        <Link data-testid="shopping-cart-button" to="/cart">Carrinho:</Link>
+        <Link data-testid="shopping-cart-button" to="/cart">
+          Carrinho:
+          {' '}
+          {/* {`${counterCartLink}`} */}
+
+        </Link>
       </div>
     );
   }
