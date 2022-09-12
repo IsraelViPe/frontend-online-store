@@ -92,11 +92,13 @@ export default class Home extends Component {
       listProducts.map(({ thumbnail, price, title, id }) => (<PreviewProduct
         key={ id }
         idButton={ id }
+        idProduct={ id }
         thumbnail={ thumbnail }
         price={ price }
         title={ title }
         handleAddCart={ this.handleAddCart }
       />)));
+
     return (
       <div>
         <div id="categorias">

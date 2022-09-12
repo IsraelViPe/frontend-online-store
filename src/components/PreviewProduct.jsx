@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default class PreviewProduct extends Component {
   render() {
-    const { thumbnail, price, title, handleAddCart, idButton } = this.props;
+    const { thumbnail, price, title, handleAddCart, idButton, idProduct } = this.props;
     return (
-      <div data-testid="product">
-        <div>
+      <Link
+        data-testid="product"
+        to={ `details/${idProduct}` }
+      >
+        <div
+          data-testid="product-detail-link"
+        >
           <img
             src={ thumbnail }
             alt={ title }
@@ -22,7 +28,7 @@ export default class PreviewProduct extends Component {
         >
           Adicionar ao Carrinho
         </button>
-      </div>
+      </Link>
     );
   }
 }
@@ -33,4 +39,5 @@ PreviewProduct.propTypes = {
   title: PropTypes.string.isRequired,
   handleAddCart: PropTypes.func.isRequired,
   idButton: PropTypes.string.isRequired,
+  idProduct: PropTypes.string.isRequired,
 };
