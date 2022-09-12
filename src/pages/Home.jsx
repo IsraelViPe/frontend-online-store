@@ -85,7 +85,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { term, listProducts, listCategories, counterCartLink } = this.state;
+    const { term, listProducts, listCategories } = this.state;
     const notFound = <span>Nenhum produto foi encontrado</span>;
 
     const productsCards = (
