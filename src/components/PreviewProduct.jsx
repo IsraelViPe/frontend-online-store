@@ -6,20 +6,22 @@ export default class PreviewProduct extends Component {
   render() {
     const { thumbnail, price, title, handleAddCart, idButton, idProduct } = this.props;
     return (
-      <Link
-        data-testid="product"
-        to={ `details/${idProduct}` }
-      >
-        <div
-          data-testid="product-detail-link"
+      <>
+        <Link
+          data-testid="product"
+          to={ `details/${idProduct}` }
         >
-          <img
-            src={ thumbnail }
-            alt={ title }
-          />
-        </div>
-        <h2>{ title }</h2>
-        <span>{ price }</span>
+          <div
+            data-testid="product-detail-link"
+          >
+            <img
+              src={ thumbnail }
+              alt={ title }
+            />
+          </div>
+          <h2>{ title }</h2>
+          <span>{ price }</span>
+        </Link>
         <button
           id={ idButton }
           data-testid="product-add-to-cart"
@@ -28,7 +30,7 @@ export default class PreviewProduct extends Component {
         >
           Adicionar ao Carrinho
         </button>
-      </Link>
+      </>
     );
   }
 }
