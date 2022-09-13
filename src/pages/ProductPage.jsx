@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../services/api';
 
-// import ProductDetails from '../components/ProductDetails';
-
 export default class ProductPage extends React.Component {
   state = {
     renderDetailProduct: {},
-    loadCart: JSON.parse(localStorage.getItem('cart')) || [],
     updateCart: JSON.parse(localStorage.getItem('cart')) || [],
     counterItens: 0,
   };
@@ -26,16 +23,16 @@ export default class ProductPage extends React.Component {
   };
 
   handleAddCartFromDetailPage = ({ target: { id } }) => {
-    const { loadCart, renderDetailProduct } = this.state;
+    const { updateCart, renderDetailProduct } = this.state;
     const { title, price, thumbnail, id: idProduct } = renderDetailProduct;
-    const productAmount = loadCart.find(({ idList }) => idList === id).addCount;
-    const nonRepeatedItens = loadCart.filter((element) => element.idList !== id);
-    const repeatedItens = loadCart.filter((element) => element.idList === id);
+    const nonRepeatedItens = updateCart.filter((element) => element.idList !== id);
+    const repeatedItens = updateCart.filter((element) => element.idList === id);
     if (repeatedItens.length > 0) {
       this.setState((prevState) => ({
         counterItens: prevState.counterItens + 1,
         updateCart: [...nonRepeatedItens],
       }), () => {
+        const productAmount = updateCart.find(({ idList }) => idList === id).addCount;
         this.setState((prevState) => ({
           updateCart: [...prevState.updateCart, {
             thumbnail,
@@ -46,6 +43,16 @@ export default class ProductPage extends React.Component {
           }],
         }), this.saveProductsCart);
       });
+    } else {
+      this.setState((prevState) => ({
+        updateCart: [...prevState.updateCart, {
+          thumbnail,
+          price,
+          title,
+          idList: idProduct,
+        }],
+        counterItens: 0,
+      }), this.saveProductsCart);
     }
   };
 
@@ -87,7 +94,7 @@ export default class ProductPage extends React.Component {
         <button
           id={ id }
           type="button"
-          data-testid="shopping-cart-button"
+          data-testid="product-detail-add-to-cart"
           onClick={ this.handleAddCartFromDetailPage }
         >
           Adicionar ao carrinho
